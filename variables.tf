@@ -47,3 +47,9 @@ variable "k8s_service_account_name" {
   default     = "aws-alb-ingress-controller"
   description = "The k8s alb-ingress service account name"
 }
+
+#dependence variable binds all AWS resources allocated by
+#this module. Dependent modules reference this variable
+variable "mod_dependency" {
+  default = null
+}
