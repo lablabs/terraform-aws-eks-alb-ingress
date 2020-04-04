@@ -4,9 +4,6 @@ resource "kubernetes_namespace" "alb_ingress" {
 
   metadata {
     name = var.k8s_namespace
-    labels = {
-      product = "ingress"
-    }
   }
 }
 
