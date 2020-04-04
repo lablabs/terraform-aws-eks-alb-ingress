@@ -30,7 +30,7 @@ variable "helm_release_name" {
 }
 
 variable "helm_repo_name" {
-  default = "incubator"
+  default = "eks-incubator"
 }
 
 variable "helm_repo_url" {
