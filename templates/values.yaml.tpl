@@ -12,6 +12,12 @@ rbac:
   serviceAccountAnnotations:
     eks.amazonaws.com/role-arn: ${ alb_ingress_iam_role_arn }
 
+resources:
+  requests:
+    memory: "64Mi"
+  limits:
+    memory: "128Mi"
+
 image:
   repository: docker.io/amazon/aws-alb-ingress-controller
   tag: "v1.1.5"

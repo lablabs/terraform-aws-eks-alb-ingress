@@ -9,7 +9,7 @@ variable "enabled" {
 }
 
 variable "replica_count" {
-  default = 3
+  default = 2
 }
 
 variable "ingress_class" {
