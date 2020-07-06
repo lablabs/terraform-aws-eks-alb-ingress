@@ -1,9 +1,11 @@
 # Required module inputs
+
 variable "cluster_name" {}
 variable "cluster_identity_oidc_issuer" {}
 variable "cluster_identity_oidc_issuer_arn" {}
 
 # alb-ingress
+
 variable "enabled" {
   type = bool
 }
@@ -17,6 +19,7 @@ variable "ingress_class" {
 }
 
 # Helm
+
 variable "helm_chart_name" {
   default = "aws-alb-ingress-controller"
 }
@@ -38,6 +41,7 @@ variable "helm_repo_url" {
 }
 
 # K8S
+
 variable "k8s_namespace" {
   default     = "alb-ingress"
   description = "The k8s namespace in which the alb-ingress service account has been created"
@@ -48,8 +52,7 @@ variable "k8s_service_account_name" {
   description = "The k8s alb-ingress service account name"
 }
 
-#dependence variable binds all AWS resources allocated by
-#this module. Dependent modules reference this variable
 variable "mod_dependency" {
-  default = null
+  default     = null
+  description = "Dependence variable binds all AWS resources allocated by this module, dependent modules reference this variable"
 }
