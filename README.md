@@ -35,7 +35,6 @@ A terraform module to deploy an Application Load Balancer (ALB) Ingress Controll
 | helm\_chart\_name | n/a | `string` | `"aws-alb-ingress-controller"` | no |
 | helm\_chart\_version | n/a | `string` | `"0.1.13"` | no |
 | helm\_release\_name | n/a | `string` | `"aws-alb-ingress-controller"` | no |
-| helm\_repo\_name | n/a | `string` | `"eks-incubator"` | no |
 | helm\_repo\_url | n/a | `string` | `"http://storage.googleapis.com/kubernetes-charts-incubator"` | no |
 | ingress\_class | n/a | `string` | `"alb-ingress"` | no |
 | k8s\_namespace | The k8s namespace in which the alb-ingress service account has been created | `string` | `"alb-ingress"` | no |
