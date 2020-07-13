@@ -32,10 +32,6 @@ variable "helm_release_name" {
   default = "aws-alb-ingress-controller"
 }
 
-variable "helm_repo_name" {
-  default = "eks-incubator"
-}
-
 variable "helm_repo_url" {
   default = "http://storage.googleapis.com/kubernetes-charts-incubator"
 }
