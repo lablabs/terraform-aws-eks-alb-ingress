@@ -28,19 +28,18 @@ A terraform module to deploy an Application Load Balancer (ALB) Ingress Controll
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| cluster\_identity\_oidc\_issuer | n/a | `any` | n/a | yes |
-| cluster\_identity\_oidc\_issuer\_arn | n/a | `any` | n/a | yes |
-| cluster\_name | n/a | `any` | n/a | yes |
+| cluster\_identity\_oidc\_issuer | The OIDC Identity issuer for the cluster | `string` | n/a | yes |
+| cluster\_identity\_oidc\_issuer\_arn | The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account | `string` | n/a | yes |
+| cluster\_name | The name of the cluster | `string` | n/a | yes |
 | enabled | n/a | `bool` | n/a | yes |
 | helm\_chart\_name | n/a | `string` | `"aws-alb-ingress-controller"` | no |
 | helm\_chart\_version | n/a | `string` | `"0.1.13"` | no |
 | helm\_release\_name | n/a | `string` | `"aws-alb-ingress-controller"` | no |
 | helm\_repo\_url | n/a | `string` | `"http://storage.googleapis.com/kubernetes-charts-incubator"` | no |
-| ingress\_class | n/a | `string` | `"alb-ingress"` | no |
 | k8s\_namespace | The k8s namespace in which the alb-ingress service account has been created | `string` | `"alb-ingress"` | no |
 | k8s\_service\_account\_name | The k8s alb-ingress service account name | `string` | `"aws-alb-ingress-controller"` | no |
 | mod\_dependency | Dependence variable binds all AWS resources allocated by this module, dependent modules reference this variable | `any` | `null` | no |
-| replica\_count | n/a | `number` | `2` | no |
+| settings | Additional settings which will be passed to the Helm chart values, see https://hub.helm.sh/charts/incubator/aws-alb-ingress-controller | `map(any)` | `{}` | no |
 
 ## Outputs
 
