@@ -7,14 +7,32 @@ resource "helm_release" "alb_ingress" {
   namespace  = var.k8s_namespace
   version    = var.helm_chart_version
 
-  values = [
-    "${templatefile("${path.module}/templates/values.yaml.tpl",
-      {
-        "cluster_name"             = var.cluster_name,
-        "alb_ingress_iam_role_arn" = aws_iam_role.alb_ingress[0].arn
-        "replica_count"            = var.replica_count
-        "ingress_class"            = var.ingress_class
-      })
-    }"
-  ]
+  set {
+    name  = "clusterName"
+    value = var.cluster_name
+  }
+
+  set {
+    name  = "rbac.create"
+    value = "true"
+  }
+
+  set {
+    name  = "rbac.serviceAccount.create"
+    value = "true"
+  }
+
+  set {
+    name  = "rbac.serviceAccountAnnotations.eks\\.amazonaws\\.com/role-arn"
+    value = aws_iam_role.alb_ingress[0].arn
+  }
+
+  dynamic "set" {
+    for_each = var.settings
+
+    content {
+      name  = set.key
+      value = set.value
+    }
+  }
 }

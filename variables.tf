@@ -1,21 +1,24 @@
 # Required module inputs
 
-variable "cluster_name" {}
-variable "cluster_identity_oidc_issuer" {}
-variable "cluster_identity_oidc_issuer_arn" {}
+variable "cluster_name" {
+  type        = string
+  description = "The name of the cluster"
+}
+
+variable "cluster_identity_oidc_issuer" {
+  type        = string
+  description = "The OIDC Identity issuer for the cluster"
+}
+
+variable "cluster_identity_oidc_issuer_arn" {
+  type        = string
+  description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account"
+}
 
 # alb-ingress
 
 variable "enabled" {
   type = bool
-}
-
-variable "replica_count" {
-  default = 2
-}
-
-variable "ingress_class" {
-  default = "alb-ingress"
 }
 
 # Helm
@@ -51,4 +54,10 @@ variable "k8s_service_account_name" {
 variable "mod_dependency" {
   default     = null
   description = "Dependence variable binds all AWS resources allocated by this module, dependent modules reference this variable"
+}
+
+variable "settings" {
+  type        = map(any)
+  default     = {}
+  description = "Additional settings which will be passed to the Helm chart values, see https://hub.helm.sh/charts/incubator/aws-alb-ingress-controller"
 }
