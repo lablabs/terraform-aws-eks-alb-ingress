@@ -1,0 +1,155 @@
+data "aws_region" "current" {}
+
+module "vpc" {
+  source = "terraform-aws-modules/vpc/aws"
+
+  name               = "alb-ingress-vpc"
+  cidr               = "10.0.0.0/16"
+  azs                = ["eu-central-1a", "eu-central-1b"]
+  public_subnets     = ["10.0.101.0/24", "10.0.102.0/24"]
+  enable_nat_gateway = true
+}
+
+module "eks_cluster" {
+  source     = "lablabs/eks-cluster/aws"
+  region     = data.aws_region.current.name
+  subnet_ids = module.vpc.public_subnets
+  vpc_id     = module.vpc.vpc_id
+  name       = "alb-ingress"
+
+  oidc_provider_enabled = true
+
+  workers_security_group_ids = [module.eks_workers.security_group_id]
+  workers_role_arns          = [module.eks_workers.workers_role_arn]
+}
+
+
+module "eks_workers" {
+  source  = "lablabs/eks-workers/aws"
+  version = "0.11.0"
+
+  cluster_certificate_authority_data = module.eks_cluster.eks_cluster_certificate_authority_data
+  cluster_endpoint                   = module.eks_cluster.eks_cluster_endpoint
+  cluster_name                       = module.eks_cluster.eks_cluster_id
+  cluster_security_group_id          = module.eks_cluster.security_group_id
+  instance_type                      = "t3.medium"
+  max_size                           = 2
+  min_size                           = 2
+  subnet_ids                         = module.vpc.public_subnets
+  vpc_id                             = module.vpc.vpc_id
+  associate_public_ip_address        = true
+
+  eks_worker_ami_name_filter = "amazon-eks-node-${module.eks_cluster.eks_cluster_version}-*"
+}
+
+# Use the module:
+
+module "alb_ingress" {
+  source = "../../"
+
+  cluster_identity_oidc_issuer     = module.eks_cluster.eks_cluster_identity_oidc_issuer
+  cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
+  cluster_name                     = module.eks_cluster.eks_cluster_id
+
+  enabled = true
+
+  settings = {
+    "awsVpcID" : module.vpc.vpc_id
+    "awsRegion" : data.aws_region.current.name
+  }
+}
+
+//# The example application behind the Load balancer
+//
+//   WARNING: These resources are just an example, and they are commented
+//   intentionally. Individual ALBs are not managed directly by Terraform, they
+//   are managed by alb-ingress-controller. Therefor Terraform will not be able
+//   to remove all resources when running `terraform destroy` and it will fail
+//   after a timeout.
+//
+//resource "kubernetes_namespace" "echoserver" {
+//  metadata {
+//    name = "echoserver"
+//  }
+//}
+//
+//resource "kubernetes_service" "echoserver" {
+//  metadata {
+//    name = "echoserver"
+//    namespace = kubernetes_namespace.echoserver.metadata[0].name
+//  }
+//  spec {
+//    port {
+//      port = 80
+//      target_port = 80
+//      protocol = "TCP"
+//    }
+//    type = "NodePort"
+//    selector = {
+//      app = "echoserver"
+//    }
+//  }
+//}
+//
+//resource "kubernetes_deployment" "echoserver" {
+//  metadata {
+//    name = "echoserver"
+//    namespace = kubernetes_namespace.echoserver.metadata[0].name
+//  }
+//  spec {
+//    selector {
+//      match_labels = {
+//        app = "echoserver"
+//      }
+//    }
+//    replicas = 3
+//    template {
+//      metadata {
+//        labels = {
+//          app = "echoserver"
+//        }
+//      }
+//      spec {
+//        container {
+//          image = "nginxdemos/hello:latest"
+//          image_pull_policy = "Always"
+//          name = "echoserver"
+//          port {
+//            container_port = 80
+//          }
+//        }
+//      }
+//    }
+//  }
+//}
+//
+//resource "kubernetes_ingress" "echoserver" {
+//  depends_on = [
+//    module.alb_ingress
+//  ]
+//
+//  metadata {
+//    name = "echoserver"
+//    namespace = kubernetes_namespace.echoserver.metadata[0].name
+//    annotations = {
+//      "kubernetes.io/ingress.class": "alb"
+//      "alb.ingress.kubernetes.io/scheme": "internet-facing"
+//      "alb.ingress.kubernetes.io/target-type": "ip"
+//      "alb.ingress.kubernetes.io/subnets": join(",", module.vpc.public_subnets)
+//      "alb.ingress.kubernetes.io/tags": "Environment=dev,Team=test"
+//    }
+//  }
+//  spec {
+//    rule {
+//      http {
+//        path {
+//          path = "/"
+//          backend {
+//            service_name = "echoserver"
+//            service_port = "80"
+//          }
+//        }
+//      }
+//    }
+//  }
+//}
