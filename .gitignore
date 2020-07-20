@@ -1,4 +1,4 @@
 .terraform/*
-/exaples/*/.terraform
-/exaples/*/terraform.tfstate.backup
-/exaples/*/terraform.tfstate
+/examples/*/.terraform
+/examples/*/terraform.tfstate.backup
+/examples/*/terraform.tfstate
