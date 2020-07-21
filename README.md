@@ -13,6 +13,13 @@ We help companies build, run, deploy and scale software and infrastructure by em
 
 A terraform module to deploy an Application Load Balancer (ALB) Ingress Controller on Amazon EKS cluster.
 
+## AWS region and VPC discovery
+
+ALB Ingress controller Helm chart may discover AWS region and AWS VPC
+automatically if `autoDiscoverAwsRegion` and `autoDiscoverAwsVpcID` parameters
+are set to `true` (see `settings` input variable). Otherwise, you must set
+`awsRegion` and `awsVpcID` parameters in order to deploy the controller.
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
