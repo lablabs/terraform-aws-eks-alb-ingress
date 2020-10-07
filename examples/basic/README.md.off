@@ -17,11 +17,7 @@ It is highly inspired by AWS ALB Ingress Controller [walkthrough: echoserver](ht
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| aws | ~> 2.0 |
-| helm | ~> 1.0 |
-| kubernetes | ~> 1.10 |
+No requirements.
 
 ## Inputs
 
