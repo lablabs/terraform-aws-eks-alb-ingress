@@ -36,7 +36,7 @@ variable "helm_release_name" {
 }
 
 variable "helm_repo_url" {
-  default = "http://storage.googleapis.com/kubernetes-charts-incubator"
+  default = "https://charts.helm.sh/incubator"
 }
 
 # K8S
