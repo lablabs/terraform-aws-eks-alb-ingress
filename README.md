@@ -31,14 +31,6 @@ are set to `true` (see `settings` input variable). Otherwise, you must set
 | local | ~> 1.2 |
 | null | ~> 2.0 |
 
-## Providers
-
-| Name | Version |
-|------|---------|
-| aws | >= 2.0, < 4.0 |
-| helm | >= 1.0, < 1.4.0 |
-| kubernetes | n/a |
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
