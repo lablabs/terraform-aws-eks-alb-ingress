@@ -25,11 +25,27 @@ are set to `true` (see `settings` input variable). Otherwise, you must set
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.26, < 0.14.0 |
-| aws | >= 2.0, < 4.0 |
-| helm | >= 1.0, < 1.4.0 |
-| local | ~> 1.2 |
-| null | ~> 2.0 |
+| terraform | >= 0.13 |
+| aws | >= 2.0 |
+| helm | >= 1.0 |
+| kubernetes | >= 1.10 |
+| local | >= 1.3 |
+| null | >= 2.0 |
+
+## Modules
+
+No Modules.
+
+## Resources
+
+| Name |
+|------|
+| [aws_iam_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) |
+| [aws_iam_policy_document](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) |
+| [aws_iam_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) |
+| [aws_iam_role_policy_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) |
+| [helm_release](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) |
+| [kubernetes_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) |
 
 ## Inputs
 
@@ -42,7 +58,7 @@ are set to `true` (see `settings` input variable). Otherwise, you must set
 | helm\_chart\_name | n/a | `string` | `"aws-alb-ingress-controller"` | no |
 | helm\_chart\_version | n/a | `string` | `"0.1.13"` | no |
 | helm\_release\_name | n/a | `string` | `"aws-alb-ingress-controller"` | no |
-| helm\_repo\_url | n/a | `string` | `"http://storage.googleapis.com/kubernetes-charts-incubator"` | no |
+| helm\_repo\_url | n/a | `string` | `"https://charts.helm.sh/incubator"` | no |
 | k8s\_namespace | The k8s namespace in which the alb-ingress service account has been created | `string` | `"alb-ingress"` | no |
 | k8s\_service\_account\_name | The k8s alb-ingress service account name | `string` | `"aws-alb-ingress-controller"` | no |
 | mod\_dependency | Dependence variable binds all AWS resources allocated by this module, dependent modules reference this variable | `any` | `null` | no |
@@ -51,7 +67,6 @@ are set to `true` (see `settings` input variable). Otherwise, you must set
 ## Outputs
 
 No output.
-
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Contributing and reporting issues
