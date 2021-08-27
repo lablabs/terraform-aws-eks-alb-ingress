@@ -24,19 +24,19 @@ variable "enabled" {
 # Helm
 
 variable "helm_chart_name" {
-  default = "aws-alb-ingress-controller"
+  default = "aws-load-balancer-controller"
 }
 
 variable "helm_chart_version" {
-  default = "0.1.13"
+  default = "1.2.7"
 }
 
 variable "helm_release_name" {
-  default = "aws-alb-ingress-controller"
+  default = "aws-load-balancer-controller"
 }
 
 variable "helm_repo_url" {
-  default = "https://charts.helm.sh/incubator"
+  default = "https://aws.github.io/eks-charts"
 }
 
 # K8S
@@ -47,7 +47,7 @@ variable "k8s_namespace" {
 }
 
 variable "k8s_service_account_name" {
-  default     = "aws-alb-ingress-controller"
+  default     = "aws-load-balancer-controller"
   description = "The k8s alb-ingress service account name"
 }
 
@@ -59,5 +59,17 @@ variable "mod_dependency" {
 variable "settings" {
   type        = map(any)
   default     = {}
-  description = "Additional settings which will be passed to the Helm chart values, see https://hub.helm.sh/charts/incubator/aws-alb-ingress-controller"
+  description = "Additional settings which will be passed to the Helm chart values, see https://aws.github.io/eks-charts"
+}
+
+variable "k8s_create_namespace" {
+  type        = bool
+  default     = false
+  description = "Whether to create k8s namespace with name defined by `k8s_namespace`"
+}
+
+variable "values" {
+  type        = string
+  default     = ""
+  description = "Additional values for helm chart. Values will be merged, in order, as Helm does with multiple -f options"
 }

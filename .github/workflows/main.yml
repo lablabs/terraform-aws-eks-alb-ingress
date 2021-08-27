@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 env:
-  TERRAFORM_DOCS_VERSION: "v0.9.1"
+  TERRAFORM_DOCS_VERSION: "v0.15.0"
   TFLINT_VERSION: "v0.16.2"
 
 jobs:

@@ -1,6 +1,5 @@
 resource "kubernetes_namespace" "alb_ingress" {
-  depends_on = [var.mod_dependency]
-  count      = (var.enabled && var.k8s_namespace != "kube-system") ? 1 : 0
+  count = (var.enabled && var.k8s_namespace != "kube-system") ? 1 : 0
 
   metadata {
     name = var.k8s_namespace
@@ -10,8 +9,7 @@ resource "kubernetes_namespace" "alb_ingress" {
 ### iam ###
 # Policy
 data "aws_iam_policy_document" "alb_ingress" {
-  depends_on = [var.mod_dependency]
-  count      = var.enabled ? 1 : 0
+  count = var.enabled ? 1 : 0
 
   statement {
     actions = [
@@ -143,7 +141,6 @@ data "aws_iam_policy_document" "alb_ingress" {
 }
 
 resource "aws_iam_policy" "alb_ingress" {
-  depends_on  = [var.mod_dependency]
   count       = var.enabled ? 1 : 0
   name        = "${var.cluster_name}-alb-ingress"
   path        = "/"
@@ -154,8 +151,7 @@ resource "aws_iam_policy" "alb_ingress" {
 
 # Role
 data "aws_iam_policy_document" "alb_ingress_assume" {
-  depends_on = [var.mod_dependency]
-  count      = var.enabled ? 1 : 0
+  count = var.enabled ? 1 : 0
 
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
@@ -179,14 +175,12 @@ data "aws_iam_policy_document" "alb_ingress_assume" {
 }
 
 resource "aws_iam_role" "alb_ingress" {
-  depends_on         = [var.mod_dependency]
   count              = var.enabled ? 1 : 0
   name               = "${var.cluster_name}-alb-ingress"
   assume_role_policy = data.aws_iam_policy_document.alb_ingress_assume[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "alb_ingress" {
-  depends_on = [var.mod_dependency]
   count      = var.enabled ? 1 : 0
   role       = aws_iam_role.alb_ingress[0].name
   policy_arn = aws_iam_policy.alb_ingress[0].arn
