@@ -25,11 +25,10 @@ are set to `true` (see `settings` input variable). Otherwise, you must set
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.26, < 0.14.0 |
-| aws | >= 2.0, < 4.0 |
-| helm | >= 1.0, < 1.4.0 |
-| local | ~> 1.2 |
-| null | ~> 2.0 |
+| terraform | >= 1.0.0 |
+| aws | >= 4.19.0 |
+| helm | >= 2.6.0 |
+| kubernetes | >=2.11.0 |
 
 ## Inputs
 
